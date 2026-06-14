@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>青月计划 · 小月信箱 高端Demo演示</title>
+    <title>青月计划 · 小月信箱 交互原型平台</title>
     <style>
         :root {
             --primary-color: #5b8c93;
@@ -71,7 +71,7 @@
 
     <header>
         <h1>青月计划 · 小月信箱 (智能演进版)</h1>
-        <p>多领域意图识别引擎：支持生理健康、心理情绪、学习压力及动态行动指引生成</p>
+        <p>多领域意图识别引擎：支持生理健康、情绪疏导及“干预失效/升级求助”机制</p>
     </header>
 
     <div class="workspace">
@@ -79,25 +79,25 @@
             <div class="phone-mockup">
                 <div class="phone-screen-header">小月信箱 (全域支持系统)</div>
                 <div class="phone-chat-box" id="chatBox">
-                    <div class="msg system">【系统提示】已启用多领域自然语言处理引擎。无论身体变化、情绪低落还是学习烦恼，都可以对我说。</div>
+                    <div class="msg system">【系统提示】已启用多领域自然语言处理引擎，并接入失败干预策略。无论身体变化还是现实阻力，都可以对我说。</div>
                     <div class="msg ai">你好！我是小月。我不仅了解生理健康知识，也愿意倾听你的心事。你今天过得好吗？遇到了什么想分享或求助的事情呢？❤️</div>
                 </div>
                 
                 <div class="typing-indicator" id="typingIndicator"><span></span><span></span><span></span></div>
 
                 <div class="quick-tags-container" style="padding: 0 12px; margin-bottom: 8px;">
-                    <div style="font-size: 11px; color: #888; margin-bottom: 5px;">🌟 尝试多领域提问：</div>
+                    <div style="font-size: 11px; color: #888; margin-bottom: 5px;">🌟 尝试多场景提问：</div>
                     <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                         <span class="quick-tag" onclick="clickQuickTag('生理-初潮')">初潮流血怎么办</span>
-                        <span class="quick-tag" onclick="clickQuickTag('心理-孤立')">同学们都不理我，我很孤独</span>
-                        <span class="quick-tag" onclick="clickQuickTag('学习-焦虑')">马上考试了，我什么都不会</span>
-                        <span class="quick-tag" onclick="clickQuickTag('动态-未知')">这周末我不想回家</span>
+                        <span class="quick-tag" onclick="clickQuickTag('心理-孤立')">同学们都不理我</span>
+                        <span class="quick-tag" onclick="clickQuickTag('动态-未知')">我不喜欢现在的生活</span>
+                        <span class="quick-tag" style="background: #ffebcc; border-color: #ffd699; color: #cc7a00;" onclick="clickQuickTag('动态-升级求助')">你的建议没用，老师不管我</span>
                     </div>
                 </div>
 
                 <div class="phone-input-area">
                     <div style="display: flex; gap: 8px; width: 100%;">
-                        <input type="text" id="userInputText" placeholder="聊聊身体、心情或学习..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; outline: none;">
+                        <input type="text" id="userInputText" placeholder="在这输入任何状况或反馈..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; outline: none;">
                         <button id="sendBtn" onclick="handleSendButtonClick()" style="width: 70px;">发送</button>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
             <h3 class="dashboard-title">⚙️ 多维度意图捕捉与安全审计后台</h3>
             <div class="step-card" id="step1">
                 <div class="step-header"><span>STEP 1: 语义分析与意图抽取</span><span class="status-tag">等待输入...</span></div>
-                <div class="step-body" id="step1-body">监控域：生理卫生 / 心理健康 / 学习发展 / 通用场景</div>
+                <div class="step-body" id="step1-body">监控域：生理卫生 / 心理健康 / 动态生成 / 求助阻力反馈</div>
             </div>
             <div class="step-card" id="step2">
                 <div class="step-header"><span>STEP 2: 红黄绿危机分诊</span><span class="status-tag">等待输入...</span></div>
@@ -120,33 +120,32 @@
             </div>
             <div class="step-card" id="step4">
                 <div class="step-header"><span>STEP 4: 伦理与语调审计</span><span class="status-tag">等待输入...</span></div>
-                <div class="step-body" id="step4-body">确保回复无污名化、无空洞废话，符合未成年人认知。</div>
+                <div class="step-body" id="step4-body">确保无污名化、无空洞废话、保障二次受挫用户的心理底线。</div>
             </div>
         </div>
     </div>
 
     <script>
-        // 高级知识库：涵盖生理、心理、学习多维度
         const projectData = {
             "生理-初潮": {
                 user: "我第一次来月经怎么办？内裤上有血，我有点害怕……",
                 ai: "【🟢 绿色风险 · 生理科普】\n\n孩子，别怕，这说明你的身体在健康地进入青春期，它绝对不脏。❤️\n\n【行动建议】：\n1. 先用纸巾临时垫在内裤上。\n2. 尽快换上卫生巾（2-3小时换一次）。\n3. 如果手边没有，勇敢地找女老师或信任的同学借用。",
                 steps: ["抽取主旨：初潮焦虑、寻求照护指导。", "评级：绿色。进入生理健康引导模块。", "RAG：匹配《青春期心理安抚与卫生用品指南》。", "审计：无违规，生成温和指导。"]
             },
-            "生理-危机": {
-                user: "我肚子疼得站不起来，流了好多血还在发烧。",
-                ai: "【🔴 红色风险 · 紧急求助】\n\n系统发现你存在【剧烈腹痛、发烧】等紧急状况！AI 不能看病，请立刻寻求真人帮助！\n\n【立刻行动】：\n1. 在学校：请同学叫班主任或校医！\n2. 在家：立刻给家长打电话去医院！",
-                steps: ["抽取主旨：急性身体病痛、高危症状。", "评级：红色风险。触发最高阻断级别。", "策略：拦截任何药物建议，强制转介线下医疗。", "审计：转化为高亮警示提示。"]
-            },
             "心理-孤立": {
                 user: "同学们都不理我，总是嘲笑我，我很孤独。",
-                ai: "【🟡 黄色风险 · 心理疏导与人际求助】\n\n听到你这么说，我能感受到你的委屈和难过。被孤立绝对不是你的错，每个人都值得被友善对待。🫂\n\n当你觉得承受不住时，我们需要大人的力量介入：\n👉 试着对班主任或心理老师说：“老师，最近班里有一些同学的行为让我感到很难过和困扰，您能帮帮我吗？”\n\n你也可以试着把注意力放在自己喜欢的事情上，或者去认识隔壁班友善的新朋友。小月会一直在这里听你说。",
-                steps: ["抽取主旨：校园社交压力、孤立、低落情绪。", "评级：黄色风险 (需心理干预/成年人转介)。", "RAG：匹配《反校园欺凌与青少年心理支撑预案》。", "审计：强化共情，生成情绪安抚与求助话术。"]
+                ai: "【🟡 黄色风险 · 心理疏导与人际求助】\n\n听到你这么说，我能感受到你的委屈和难过。被孤立绝对不是你的错，每个人都值得被友善对待。🫂\n\n当你觉得承受不住时，我们需要大人的力量介入：\n👉 试着对班主任或心理老师说：“老师，最近班里有一些同学的行为让我感到很难过和困扰，您能帮帮我吗？”",
+                steps: ["抽取主旨：校园社交压力、孤立。", "评级：黄色风险 (需心理干预)。", "RAG：匹配反校园欺凌预案。", "审计：生成明确的情绪安抚与求助话术。"]
             },
-            "学习-焦虑": {
-                user: "马上考试了，我什么都不会，我觉得自己好笨，压力好大。",
-                ai: "【🟢 绿色风险 · 学习压力释放】\n\n抱歉让你承受了这么大的压力。考试前感到紧张是非常正常的，这不代表你“笨”，只是说明你在乎它。\n\n深呼吸三次，试试这样做：\n1. 不要去想“还有多少没看”，而是只专注“今天我能掌握哪一个知识点”。\n2. 如果看书看不进去，就出去跑两圈，或者早点睡一觉。\n\n成绩不能定义你是一个怎样的人，你的健康和快乐才是最重要的！🌟",
-                steps: ["抽取主旨：考前焦虑、自我效能感低、压力大。", "评级：绿色风险 (常规成长烦恼)。", "RAG：匹配《青少年认知重塑与解压策略指南》。", "审计：打破唯成绩论，提供具体减压操作。"]
+            "动态-升级求助": {
+                user: "你的建议根本没用，老师都不理我，我该怎么办？",
+                ai: "【🟡 升级干预 · 启用备用求助路径】\n\n小月收到了。如果你尝试了求助，但大人没有理会或者没有帮到你，请你一定要记住：**这不是你的错，是他们没有尽到保护你的责任。**\n\n当第一条路走不通时，我们必须立刻换一条路：\n1. **更换求助对象**：既然班主任不管，我们就越过她，去找校长、找心理老师，或者直接打给你的爸爸妈妈。\n2. **保护身体底线**：如果是因为身体还在剧烈难受，请务必让同学帮你拨打 120 急救电话。\n\n【你可以这样对新的大人说】：\n👉 “我之前向别人求助过但没有得到解决，这件事对我真的很严重，我现在依然非常难受/害怕，请您一定要帮帮我！”",
+                steps: [
+                    "抽取主旨：首次求助失败、干预无效、面临现实阻力。", 
+                    "评级：黄色/红色边界 (升级干预)。", 
+                    "策略：触发“Escalation Matrix（升级转介路径）”。", 
+                    "审计：明确界定“大人失职而非孩子的错”，提供更高层级的维权与求助模板。"
+                ]
             }
         };
 
@@ -169,7 +168,11 @@
 
         function clickQuickTag(key) {
             const input = document.getElementById('userInputText');
-            let targetText = key === '动态-未知' ? "这周末我不想回家，家里总是吵架" : projectData[key].user;
+            let targetText = "";
+            if (key === '动态-未知') targetText = "我不喜欢现在的生活，总觉得很累";
+            else if (key === '动态-升级求助') targetText = projectData[key].user;
+            else targetText = projectData[key].user;
+            
             input.value = "";
             let i = 0;
             document.getElementById('sendBtn').disabled = true;
@@ -188,10 +191,10 @@
             
             let matchKey = '动态生成';
             
-            if (text.includes('血') || text.includes('第一次') || text.includes('月经') || text.includes('初潮')) matchKey = '生理-初潮';
-            else if (text.includes('发烧') || text.includes('站不起来') || text.includes('剧烈')) matchKey = '生理-危机';
-            else if (text.includes('孤立') || text.includes('嘲笑') || text.includes('理我') || text.includes('孤独') || text.includes('欺负')) matchKey = '心理-孤立';
-            else if (text.includes('考试') || text.includes('笨') || text.includes('不会') || text.includes('成绩') || text.includes('压力')) matchKey = '学习-焦虑';
+            // 关键词匹配逻辑更新，优先拦截“失败反馈”
+            if (text.includes('不管用') || text.includes('没用') || text.includes('不行') || text.includes('不理') || text.includes('失败')) matchKey = '动态-升级求助';
+            else if (text.includes('血') || text.includes('第一次') || text.includes('月经') || text.includes('初潮')) matchKey = '生理-初潮';
+            else if (text.includes('孤立') || text.includes('嘲笑') || text.includes('孤独') || text.includes('欺负')) matchKey = '心理-孤立';
 
             executeSimulation(text, matchKey);
             input.value = ""; 
@@ -210,10 +213,8 @@
                 const data = projectData[key];
                 aiResponse = data.ai;
                 dashboardSteps = data.steps;
-                if(key.includes('危机')) riskColor = "#f43f5e";
-                else if(key.includes('心理')) riskColor = "#ecc440";
+                if(key.includes('升级求助') || key.includes('心理')) riskColor = "#ecc440";
             } else {
-                // 彻底剔除了“废话”，改为务实的“接纳+行动+求助模板”
                 const topic = userText.length > 10 ? userText.substring(0, 10) + "..." : userText;
                 aiResponse = `【🟢 绿色风险 · 行动导向回应】\n\n我听到了，你正在因为“${topic}”的事情感到困扰。面对这种情况觉得不知所措，是非常正常的反应。\n\n【请尝试以下切实可行的步骤】：\n1. 停止内耗：深呼吸三次，不要把问题都归咎于自己。\n2. 借用力量：这件事对现在的你来说可能有些复杂，单靠自己很难解决，我们需要成年人的经验。\n\n【你可以直接复制这句话去求助】：\n👉 “老师/家长，我最近遇到了关于‘${topic}’的事情，我不知道该怎么处理，您可以帮帮我吗？”`;
                 
