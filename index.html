@@ -71,7 +71,7 @@
 
     <header>
         <h1>青月计划 · 小月信箱 (智能演进版)</h1>
-        <p>多领域意图识别引擎：支持生理健康、心理情绪、学习压力及动态对话生成</p>
+        <p>多领域意图识别引擎：支持生理健康、心理情绪、学习压力及动态行动指引生成</p>
     </header>
 
     <div class="workspace">
@@ -108,19 +108,19 @@
             <h3 class="dashboard-title">⚙️ 多维度意图捕捉与安全审计后台</h3>
             <div class="step-card" id="step1">
                 <div class="step-header"><span>STEP 1: 语义分析与意图抽取</span><span class="status-tag">等待输入...</span></div>
-                <div class="step-body" id="step1-body">监控域：生理卫生 / 心理健康 / 学习发展 / 通用闲聊</div>
+                <div class="step-body" id="step1-body">监控域：生理卫生 / 心理健康 / 学习发展 / 通用场景</div>
             </div>
             <div class="step-card" id="step2">
                 <div class="step-header"><span>STEP 2: 红黄绿危机分诊</span><span class="status-tag">等待输入...</span></div>
                 <div class="step-body" id="step2-body">进行风险评级与应对策略分配。</div>
             </div>
             <div class="step-card" id="step3">
-                <div class="step-header"><span>STEP 3: 知识检索与动态生成</span><span class="status-tag">等待输入...</span></div>
-                <div class="step-body" id="step3-body">调用相关知识库，或组合动态回复模板。</div>
+                <div class="step-header"><span>STEP 3: 知识检索与务实应对</span><span class="status-tag">等待输入...</span></div>
+                <div class="step-body" id="step3-body">调用相关知识库，或提供切实可行的行动指引。</div>
             </div>
             <div class="step-card" id="step4">
                 <div class="step-header"><span>STEP 4: 伦理与语调审计</span><span class="status-tag">等待输入...</span></div>
-                <div class="step-body" id="step4-body">确保回复无污名化、低羞耻感且符合未成年人认知。</div>
+                <div class="step-body" id="step4-body">确保回复无污名化、无空洞废话，符合未成年人认知。</div>
             </div>
         </div>
     </div>
@@ -188,7 +188,6 @@
             
             let matchKey = '动态生成';
             
-            // 更智能的多维度关键词匹配引擎
             if (text.includes('血') || text.includes('第一次') || text.includes('月经') || text.includes('初潮')) matchKey = '生理-初潮';
             else if (text.includes('发烧') || text.includes('站不起来') || text.includes('剧烈')) matchKey = '生理-危机';
             else if (text.includes('孤立') || text.includes('嘲笑') || text.includes('理我') || text.includes('孤独') || text.includes('欺负')) matchKey = '心理-孤立';
@@ -203,10 +202,9 @@
             const sendBtn = document.getElementById('sendBtn');
             const input = document.getElementById('userInputText');
 
-            // 动态生成回复的逻辑核心
             let aiResponse = "";
             let dashboardSteps = [];
-            let riskColor = "#57ab5a"; // 默认绿色
+            let riskColor = "#57ab5a"; 
 
             if (key !== '动态生成') {
                 const data = projectData[key];
@@ -215,15 +213,15 @@
                 if(key.includes('危机')) riskColor = "#f43f5e";
                 else if(key.includes('心理')) riskColor = "#ecc440";
             } else {
-                // 这是本次升级的最核心：动态捕捉重组技术
-                // 提取用户输入的前几个字作为话题焦点，模拟大语言模型的“上下文理解”
-                const topic = userText.length > 8 ? userText.substring(0, 8) + "..." : userText;
-                aiResponse = `【🟢 绿色风险 · 动态智能回应】\n\n我仔细听了你说的关于“${topic}”的事情。青春期的时候，我们确实会遇到各种各样超出书本知识的烦恼。这很正常。\n\n因为我目前还在不断学习中，虽然不能立刻给出完美的答案，但我建议你可以把这件事写在日记里理清思绪，或者试着找班里最信任的老师聊一聊。\n\n你愿意多告诉我一点你的感受吗？我一直都在这里听着。`;
+                // 彻底剔除了“废话”，改为务实的“接纳+行动+求助模板”
+                const topic = userText.length > 10 ? userText.substring(0, 10) + "..." : userText;
+                aiResponse = `【🟢 绿色风险 · 行动导向回应】\n\n我听到了，你正在因为“${topic}”的事情感到困扰。面对这种情况觉得不知所措，是非常正常的反应。\n\n【请尝试以下切实可行的步骤】：\n1. 停止内耗：深呼吸三次，不要把问题都归咎于自己。\n2. 借用力量：这件事对现在的你来说可能有些复杂，单靠自己很难解决，我们需要成年人的经验。\n\n【你可以直接复制这句话去求助】：\n👉 “老师/家长，我最近遇到了关于‘${topic}’的事情，我不知道该怎么处理，您可以帮帮我吗？”`;
+                
                 dashboardSteps = [
-                    `抽取主旨：未命中特定词库。提取动态话题：[${topic}]`,
-                    "评级：绿色风险 (泛化倾诉/日常烦恼)。",
-                    "生成策略：采用“话题镜像反射”+“共情倾听”框架动态组合文本。",
-                    "审计：确保无倾向性误导，提供温和的情感出口与真人连接。"
+                    `抽取主旨：未命中特定词库。提取焦点：[${topic}]`,
+                    "评级：绿色风险 (泛化求助)。",
+                    "生成策略：拒绝空洞套话，强制采用“情绪接纳 + 行动步骤 + 求助模板”的务实框架。",
+                    "审计：已拦截机器废话，确保提供了可直接执行的沟通句式。"
                 ];
             }
 
