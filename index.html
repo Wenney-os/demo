@@ -6,7 +6,7 @@
     <title>青月计划 · 小月信箱 高端Demo演示</title>
     <style>
         :root {
-            --primary-color: #5b8c93; /* 沉稳的青月蓝 */
+            --primary-color: #5b8c93;
             --accent-color: #7ba3a8;
             --bg-color: #f0f4f5;
             --card-bg: #ffffff;
@@ -32,335 +32,121 @@
         header h1 { margin: 0; font-size: 26px; letter-spacing: 1px; }
         header p { margin: 8px 0 0 0; opacity: 0.85; font-size: 14px; }
 
-        /* 双栏布局：左手机，右看板 */
-        .workspace {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
+        .workspace { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: flex; gap: 30px; flex-wrap: wrap; }
+        .phone-column { flex: 1; min-width: 360px; display: flex; flex-direction: column; align-items: center; }
+        .phone-mockup { width: 100%; max-width: 380px; height: 640px; background: #ebebeb; border: 12px solid #333; border-radius: 36px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); overflow: hidden; display: flex; flex-direction: column; position: relative; }
+        .phone-screen-header { background: var(--primary-color); color: white; padding: 18px 15px 12px 15px; text-align: center; font-weight: bold; font-size: 16px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .phone-chat-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #f5f5f5; }
 
-        /* 左侧：手机样机容器 */
-        .phone-column {
-            flex: 1;
-            min-width: 360px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        .dashboard-column { flex: 1.2; min-width: 400px; background: #1e252b; color: #adbac7; border-radius: 16px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; gap: 20px; }
+        .dashboard-title { color: #539bf5; font-size: 18px; font-weight: bold; border-bottom: 1px solid #373e47; padding-bottom: 10px; margin: 0; display: flex; align-items: center; gap: 8px; }
 
-        .phone-mockup {
-            width: 100%;
-            max-width: 380px;
-            height: 640px;
-            background: #ebebeb;
-            border: 12px solid #333;
-            border-radius: 36px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
+        .msg { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; animation: slideUp 0.3s ease forwards; opacity: 0; transform: translateY(10px); }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        .msg.system { background: rgba(0,0,0,0.05); color: var(--text-muted); font-size: 11px; align-self: center; text-align: center; max-width: 95%; }
+        .msg.user { background: #95ec69; color: #111; align-self: flex-end; border-top-right-radius: 2px; }
+        .msg.ai { background: white; color: #222; align-self: flex-start; border-top-left-radius: 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
 
-        .phone-screen-header {
-            background: var(--primary-color);
-            color: white;
-            padding: 18px 15px 12px 15px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 16px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .phone-chat-box {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            background: #f5f5f5;
-        }
-
-        /* 右侧：AI 思考看板 */
-        .dashboard-column {
-            flex: 1.2;
-            min-width: 400px;
-            background: #1e252b; /* 暗色调科技感面板 */
-            color: #adbac7;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .dashboard-title {
-            color: #539bf5;
-            font-size: 18px;
-            font-weight: bold;
-            border-bottom: 1px solid #373e47;
-            padding-bottom: 10px;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* 气泡样式与动画 */
-        .msg {
-            max-width: 80%;
-            padding: 10px 14px;
-            border-radius: 12px;
-            font-size: 14px;
-            line-height: 1.5;
-            animation: slideUp 0.3s ease forwards;
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-        @keyframes slideUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .msg.system {
-            background: rgba(0,0,0,0.05);
-            color: var(--text-muted);
-            font-size: 11px;
-            align-self: center;
-            text-align: center;
-            max-width: 95%;
-        }
-
-        .msg.user {
-            background: #95ec69;
-            color: #111;
-            align-self: flex-end;
-            border-top-right-radius: 2px;
-        }
-
-        .msg.ai {
-            background: white;
-            color: #222;
-            align-self: flex-start;
-            border-top-left-radius: 2px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-        }
-
-        /* 输入中闪烁动画 */
-        .typing-indicator {
-            display: none;
-            background: white;
-            align-self: flex-start;
-            padding: 10px 15px;
-            border-radius: 12px;
-            border-top-left-radius: 2px;
-        }
-        .typing-indicator span {
-            height: 8px; width: 8px; background: #888; display: inline-block; border-radius: 50%;
-            animation: bounce 1.3s infinite; margin: 0 2px;
-        }
+        .typing-indicator { display: none; background: white; align-self: flex-start; padding: 10px 15px; border-radius: 12px; border-top-left-radius: 2px; }
+        .typing-indicator span { height: 8px; width: 8px; background: #888; display: inline-block; border-radius: 50%; animation: bounce 1.3s infinite; margin: 0 2px; }
         .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
         .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
-        @keyframes bounce {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-6px); }
-        }
+        @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
 
-        /* 控制台步骤样式 */
-        .step-card {
-            background: #222b35;
-            border-radius: 8px;
-            padding: 12px 15px;
-            border-left: 4px solid #444;
-            transition: all 0.3s;
-        }
-        .step-card.active {
-            border-left-color: #539bf5;
-            background: #263545;
-        }
-        .step-header {
-            font-size: 13px;
-            font-weight: bold;
-            color: #768390;
-            margin-bottom: 5px;
-            display: flex;
-            justify-content: space-between;
-        }
+        .step-card { background: #222b35; border-radius: 8px; padding: 12px 15px; border-left: 4px solid #444; transition: all 0.3s; }
+        .step-card.active { border-left-color: #539bf5; background: #263545; }
+        .step-header { font-size: 13px; font-weight: bold; color: #768390; margin-bottom: 5px; display: flex; justify-content: space-between; }
         .step-card.active .step-header { color: #539bf5; }
         .step-body { font-size: 13px; color: #cdd9e5; }
 
-        /* 快捷标签的现代设计样式 */
-        .quick-tag {
-            background: #e4ecef;
-            color: var(--primary-color);
-            font-size: 11px;
-            padding: 5px 10px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid #d0dee2;
-            user-select: none;
-        }
-        .quick-tag:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: translateY(-1px);
-        }
+        .quick-tag { background: #e4ecef; color: var(--primary-color); font-size: 11px; padding: 5px 10px; border-radius: 12px; cursor: pointer; transition: all 0.2s; border: 1px solid #d0dee2; user-select: none; }
+        .quick-tag:hover { background: var(--primary-color); color: white; transform: translateY(-1px); }
 
-        /* 底部输入区域 */
-        .phone-input-area {
-            background: #f7f7f7;
-            padding: 12px;
-            border-top: 1px solid #e0e0e0;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .phone-input-area button {
-            background: var(--primary-color); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: bold; transition: background 0.2s;
-        }
-        .phone-input-area button:hover { background: #4a7278; }
+        .phone-input-area { background: #f7f7f7; padding: 12px; border-top: 1px solid #e0e0e0; display: flex; flex-direction: column; gap: 8px; }
+        .phone-input-area button { background: var(--primary-color); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: bold; transition: background 0.2s; }
         .phone-input-area button:disabled { background: #ccc; cursor: not-allowed; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>青月计划 · 小月信箱 交互原型平台</h1>
-        <p>系统演示：左侧为乡村青少年手机端模拟，右侧为“青月 AI 治理与风控引擎”的底层思考外显</p>
+        <h1>青月计划 · 小月信箱 (智能演进版)</h1>
+        <p>多领域意图识别引擎：支持生理健康、心理情绪、学习压力及动态对话生成</p>
     </header>
 
     <div class="workspace">
-        
-        <!-- 左侧：真实手机模拟 -->
         <div class="phone-column">
             <div class="phone-mockup">
-                <div class="phone-screen-header">小月信箱 (匿名通道)</div>
+                <div class="phone-screen-header">小月信箱 (全域支持系统)</div>
                 <div class="phone-chat-box" id="chatBox">
-                    <div class="msg system">【系统安全提示】本通道严格遵守隐私最小必要收集原则，不保存敏感历史记录。已为您接入专家审核知识库。</div>
-                    <div class="msg ai">你好呀！我是小月信箱的 AI 助手。关于青春期的身体发育、月经或者学校里遇到的烦恼，你都可以放心地匿名问我。我会为你绝对保密，并一步步陪着你解决。❤️</div>
+                    <div class="msg system">【系统提示】已启用多领域自然语言处理引擎。无论身体变化、情绪低落还是学习烦恼，都可以对我说。</div>
+                    <div class="msg ai">你好！我是小月。我不仅了解生理健康知识，也愿意倾听你的心事。你今天过得好吗？遇到了什么想分享或求助的事情呢？❤️</div>
                 </div>
                 
-                <!-- 闪烁的“输入中”提示 -->
-                <div class="typing-indicator" id="typingIndicator">
-                    <span></span><span></span><span></span>
-                </div>
+                <div class="typing-indicator" id="typingIndicator"><span></span><span></span><span></span></div>
 
-                <!-- 升级版：智能快捷推荐标签 -->
                 <div class="quick-tags-container" style="padding: 0 12px; margin-bottom: 8px;">
-                    <div style="font-size: 11px; color: #888; margin-bottom: 5px;">🌟 猜你想问（点击标签可自动打字输入）：</div>
+                    <div style="font-size: 11px; color: #888; margin-bottom: 5px;">🌟 尝试多领域提问：</div>
                     <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                        <span class="quick-tag" onclick="clickQuickTag('q1')">初潮流血怎么办</span>
-                        <span class="quick-tag" onclick="clickQuickTag('q2')">肚子疼被嘲笑</span>
-                        <span class="quick-tag" onclick="clickQuickTag('q3')">高烧大量出血</span>
-                        <span class="quick-tag" onclick="clickQuickTag('custom1')">月经是脏的吗</span>
-                        <span class="quick-tag" onclick="clickQuickTag('custom2')">卫生巾多久换一次</span>
+                        <span class="quick-tag" onclick="clickQuickTag('生理-初潮')">初潮流血怎么办</span>
+                        <span class="quick-tag" onclick="clickQuickTag('心理-孤立')">同学们都不理我，我很孤独</span>
+                        <span class="quick-tag" onclick="clickQuickTag('学习-焦虑')">马上考试了，我什么都不会</span>
+                        <span class="quick-tag" onclick="clickQuickTag('动态-未知')">这周末我不想回家</span>
                     </div>
                 </div>
 
-                <!-- 升级版：自由输入文本框 -->
                 <div class="phone-input-area">
                     <div style="display: flex; gap: 8px; width: 100%;">
-                        <input type="text" id="userInputText" placeholder="在这输入你想问的任何问题..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; outline: none;">
+                        <input type="text" id="userInputText" placeholder="聊聊身体、心情或学习..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; outline: none;">
                         <button id="sendBtn" onclick="handleSendButtonClick()" style="width: 70px;">发送</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 右侧：AI 思考大屏 -->
         <div class="dashboard-column">
-            <h3 class="dashboard-title">⚙️ 青月 AI 风险分诊与技术链条监控后台</h3>
-            
+            <h3 class="dashboard-title">⚙️ 多维度意图捕捉与安全审计后台</h3>
             <div class="step-card" id="step1">
-                <div class="step-header"><span>STEP 1: 语义分析与意图识别</span><span class="status-tag">等待输入...</span></div>
-                <div class="step-body" id="step1-body">暂无输入数据。系统就绪中。</div>
+                <div class="step-header"><span>STEP 1: 语义分析与意图抽取</span><span class="status-tag">等待输入...</span></div>
+                <div class="step-body" id="step1-body">监控域：生理卫生 / 心理健康 / 学习发展 / 通用闲聊</div>
             </div>
-
             <div class="step-card" id="step2">
-                <div class="step-header"><span>STEP 2: 红黄绿风险分诊分类器</span><span class="status-tag">等待输入...</span></div>
-                <div class="step-body" id="step2-body">准备对输入内容进行合规性与危机等级审计。</div>
+                <div class="step-header"><span>STEP 2: 红黄绿危机分诊</span><span class="status-tag">等待输入...</span></div>
+                <div class="step-body" id="step2-body">进行风险评级与应对策略分配。</div>
             </div>
-
             <div class="step-card" id="step3">
-                <div class="step-header"><span>STEP 3: 专家知识库 RAG 检索</span><span class="status-tag">等待输入...</span></div>
-                <div class="step-body" id="step3-body">匹配权威健康教育教材与本地化青春期照护指南。</div>
+                <div class="step-header"><span>STEP 3: 知识检索与动态生成</span><span class="status-tag">等待输入...</span></div>
+                <div class="step-body" id="step3-body">调用相关知识库，或组合动态回复模板。</div>
             </div>
-
             <div class="step-card" id="step4">
-                <div class="step-header"><span>STEP 4: 安全边界拦截与语言适配</span><span class="status-tag">等待输入...</span></div>
-                <div class="step-body" id="step4-body">拦截任何医疗诊断、违规药物剂量推荐，将术语转化为低学龄可懂的温和语言。</div>
+                <div class="step-header"><span>STEP 4: 伦理与语调审计</span><span class="status-tag">等待输入...</span></div>
+                <div class="step-body" id="step4-body">确保回复无污名化、低羞耻感且符合未成年人认知。</div>
             </div>
         </div>
-
     </div>
 
     <script>
-        // 核心知识库与策略池
+        // 高级知识库：涵盖生理、心理、学习多维度
         const projectData = {
-            q1: {
+            "生理-初潮": {
                 user: "我第一次来月经怎么办？内裤上有血，我有点害怕……",
-                ai: "【绿色风险 · 科学科普】\n\n孩子，别怕，这很可能是你的第一次月经。这说明你的身体在健康地进入青春期，是再正常不过的变化，它绝对不脏，页不是你做错了什么。❤️\n\n【你可以这样做】：\n1. 先用干净的纸巾临时垫在内裤上，别弄脏裤子。\n2. 尽快换上卫生巾（每2-3小时要换一次哦）。\n3. 如果手边没有，可以勇敢地找学校的女老师、校医或你信任的女同学借。大家都是过来人，一定会帮你的！",
-                steps: [
-                    "识别用户核心意图：初潮发育、寻求生理期应急照护指导。",
-                    "判定等级：绿色风险 (普通科普)。无需人工介入，允许触发大模型生成。",
-                    "RAG成功：检索到《中国青少年青春期健康教育标准规范》- 初潮心理安抚与卫生用品使用指南。",
-                    "边界审计通过：无药物、无露骨词汇。采用10-14岁女童适配语调，执行‘安抚-科普-行动’五步结构改写。"
-                ]
+                ai: "【🟢 绿色风险 · 生理科普】\n\n孩子，别怕，这说明你的身体在健康地进入青春期，它绝对不脏。❤️\n\n【行动建议】：\n1. 先用纸巾临时垫在内裤上。\n2. 尽快换上卫生巾（2-3小时换一次）。\n3. 如果手边没有，勇敢地找女老师或信任的同学借用。",
+                steps: ["抽取主旨：初潮焦虑、寻求照护指导。", "评级：绿色。进入生理健康引导模块。", "RAG：匹配《青春期心理安抚与卫生用品指南》。", "审计：无违规，生成温和指导。"]
             },
-            q2: {
-                user: "上课肚子疼得厉害，有男生笑我，我不知道怎么和老师说。",
-                ai: "【黄色风险 · 触发求助话术】\n\n听到你的遭遇我很心疼。请你一定要记住：月经是伟大的生理现象，绝不是丢人的事！嘲笑别人的人才是无知的。肚子疼不能硬撑，我们需要请老师帮忙。\n\n【为你生成的求助小纸条，你可以直接读给老师听】：\n👉 “老师，我身体不舒服，可能和生理期有关，想去医务室休息一下，可以吗？”\n\n【如果男生继续开玩笑，你可以坚定地告诉他】：\n👉 “这是正常的生理现象，不是可以开玩笑的事情，请你停止。”",
-                steps: [
-                    "识别用户核心意图：经期痛经、校园社交压力（嘲笑、羞辱）、缺乏沟通话术。",
-                    "判定等级：黄色风险 (需成年人转介)。触发核心安全策略：必须生成行动模板，引导向学校真人（老师、校医）开口求助。",
-                    "RAG成功：匹配到《反校园性别嘲弄干预库》以及《中小学心理辅导沟通话术生成规范》。",
-                    "安全审计：系统强制注入阻断提示，提醒用户“身体不适应找老师”，并严格过滤任何抽象、孩子说不出口的空洞建议。"
-                ]
+            "生理-危机": {
+                user: "我肚子疼得站不起来，流了好多血还在发烧。",
+                ai: "【🔴 红色风险 · 紧急求助】\n\n系统发现你存在【剧烈腹痛、发烧】等紧急状况！AI 不能看病，请立刻寻求真人帮助！\n\n【立刻行动】：\n1. 在学校：请同学叫班主任或校医！\n2. 在家：立刻给家长打电话去医院！",
+                steps: ["抽取主旨：急性身体病痛、高危症状。", "评级：红色风险。触发最高阻断级别。", "策略：拦截任何药物建议，强制转介线下医疗。", "审计：转化为高亮警示提示。"]
             },
-            q3: {
-                user: "我肚子疼得站不起来，流了好多血还在发烧，怎么办？",
-                ai: "【🔴 红色风险 · 必须紧急求助 🔴】\n\n孩子！系统发现你现在存在【剧烈腹痛、发烧、大量出血】的紧急状况。AI 不能看病，请不要再看手机聊天了，现在必须立刻找你身边的真人帮忙！\n\n【请立刻进行以下求助】：\n1. 如果在上课或学校，马上大声告诉或者请同学去叫班主任、值班老师、或者校医！\n2. 如果在寝室或家里，请立刻给家长打电话，告知他们你身体极度不舒服，必须立刻去医院！\n3. 安全第一，请马上联系可以信任的长辈或医生介入！",
-                steps: [
-                    "严重危机识别：输入包含‘站不起来’、‘发烧’、‘大量流血’等高危医学症状。",
-                    "判定等级：红色风险 (生命安全与紧急危机)。触发最高级别硬边界拦截：立刻终止大模型自由对话！",
-                    "RAG触发：检索到《未成年人急性医疗危机转介与紧急求助引导预案》。",
-                    "安全边界拦截：[强制触发] 100%拦截任何医学诊断或止痛药推荐。强制转为‘高亮、加粗、感叹号’的紧急大字提示，引导线下真人、医院资源接管。"
-                ]
+            "心理-孤立": {
+                user: "同学们都不理我，总是嘲笑我，我很孤独。",
+                ai: "【🟡 黄色风险 · 心理疏导与人际求助】\n\n听到你这么说，我能感受到你的委屈和难过。被孤立绝对不是你的错，每个人都值得被友善对待。🫂\n\n当你觉得承受不住时，我们需要大人的力量介入：\n👉 试着对班主任或心理老师说：“老师，最近班里有一些同学的行为让我感到很难过和困扰，您能帮帮我吗？”\n\n你也可以试着把注意力放在自己喜欢的事情上，或者去认识隔壁班友善的新朋友。小月会一直在这里听你说。",
+                steps: ["抽取主旨：校园社交压力、孤立、低落情绪。", "评级：黄色风险 (需心理干预/成年人转介)。", "RAG：匹配《反校园欺凌与青少年心理支撑预案》。", "审计：强化共情，生成情绪安抚与求助话术。"]
             },
-            custom1: {
-                user: "月经血是不是很脏？",
-                ai: "【绿色风险 · 观念去污名化】\n\n女孩子身体里的月经血一点都不脏哦！它是我们身体生长的自然证明，代表着你正在健康地长大。以前有些旧观念说它‘不吉利’或者‘脏’，那都是完全错误的落后想法。你可以骄傲、坦然地接纳自己身体的每一步变化。🌟",
-                steps: [
-                    "检测输入：‘月经很脏吗’。识别为青春期月经羞耻感、观念误区。",
-                    "判定等级：绿色风险 (观念引导/心理支持)。",
-                    "RAG成功：匹配到《乡村青少年女性心理防线与身体接纳指南》- 去污名化篇。",
-                    "审计通过：执行低羞耻感温和语改写，强化心理支撑，瓦解原生家庭或落后环境带来的污名化影响。"
-                ]
-            },
-            custom2: {
-                user: "卫生巾多久需要换一次？",
-                ai: "【绿色风险 · 经期卫生照护】\n\n为了我们身体的卫生和健康，卫生巾一般建议【每2-3个小时】就需要更换一次哦！哪怕量很少，时间长了也会滋生细菌。另外，换卫生巾之前，记得一定要把双手洗干净。🧼",
-                steps: [
-                    "检测输入：‘卫生巾更换频率’。识别为日常经期卫生照护、生理常识。",
-                    "判定等级：绿色风险 (普通生活常识科普)。",
-                    "RAG成功：匹配妇幼保健院《经期基本生理照护指南》第二章。",
-                    "审计通过：输出短、准、可执行的步骤建议，无信息幻觉。"
-                ]
-            },
-            default: {
-                ai: "【绿色风险 · 通用智能引导】\n\n谢谢你信任小月信箱。这是一个针对乡村青少年的保护通道。你问的问题我已经交由知识库进行匹配。为了你的安全，请确保在日常生活中多跟学校的可信女教师、校医或妈妈沟通。如果你身体有不舒服，一定要及时告诉大人哦！❤️",
-                steps: [
-                    "检测输入：用户进行了完全自由的文本提问。",
-                    "判定等级：绿色风险 (通用泛化意图)。",
-                    "RAG匹配：匹配通用青春期安全呵护兜底词条。",
-                    "安全审计：进入全自动合规性兜底，避免大模型自由发挥产生不可控的幻觉。"
-                ]
+            "学习-焦虑": {
+                user: "马上考试了，我什么都不会，我觉得自己好笨，压力好大。",
+                ai: "【🟢 绿色风险 · 学习压力释放】\n\n抱歉让你承受了这么大的压力。考试前感到紧张是非常正常的，这不代表你“笨”，只是说明你在乎它。\n\n深呼吸三次，试试这样做：\n1. 不要去想“还有多少没看”，而是只专注“今天我能掌握哪一个知识点”。\n2. 如果看书看不进去，就出去跑两圈，或者早点睡一觉。\n\n成绩不能定义你是一个怎样的人，你的健康和快乐才是最重要的！🌟",
+                steps: ["抽取主旨：考前焦虑、自我效能感低、压力大。", "评级：绿色风险 (常规成长烦恼)。", "RAG：匹配《青少年认知重塑与解压策略指南》。", "审计：打破唯成绩论，提供具体减压操作。"]
             }
         };
 
@@ -381,130 +167,101 @@
             document.getElementById(`step${stepNum}-body`).innerText = bodyText;
         }
 
-        // 交互逻辑 1：点击快捷标签，触发优雅的“打字进输入框”效果
         function clickQuickTag(key) {
             const input = document.getElementById('userInputText');
-            const targetText = projectData[key].user;
+            let targetText = key === '动态-未知' ? "这周末我不想回家，家里总是吵架" : projectData[key].user;
             input.value = "";
             let i = 0;
-            
-            // 禁用按钮，防止打字未完就发送
             document.getElementById('sendBtn').disabled = true;
-            
             function autoTypeIntoInput() {
                 if (i < targetText.length) {
-                    input.value += targetText.charAt(i);
-                    i++;
-                    setTimeout(autoTypeIntoInput, 40); // 敲字进框的速度
-                } else {
-                    document.getElementById('sendBtn').disabled = false;
-                }
+                    input.value += targetText.charAt(i); i++; setTimeout(autoTypeIntoInput, 30);
+                } else { document.getElementById('sendBtn').disabled = false; }
             }
             autoTypeIntoInput();
         }
 
-        // 交互逻辑 2：点击发送按钮
         function handleSendButtonClick() {
             const input = document.getElementById('userInputText');
             const text = input.value.trim();
-            if (!text) { alert('你想问小月什么呢？请输入内容后再发送哦！'); return; }
+            if (!text) { alert('请输入内容哦！'); return; }
             
-            // 判断输入的是不是我们库里有精准匹配的预设
-            let matchKey = 'default';
-            for (let key in projectData) {
-                if (projectData[key].user === text) {
-                    matchKey = key;
-                    break;
-                }
-            }
+            let matchKey = '动态生成';
             
-            // 如果库里没有一模一样的，看看有没有包含关键字
-            if (matchKey === 'default') {
-                if (text.includes('血') || text.includes('第一次') || text.includes('怕')) matchKey = 'q1';
-                else if (text.includes('痛') || text.includes('疼') || text.includes('笑')) matchKey = 'q2';
-                else if (text.includes('烧') || text.includes('站不起来')) matchKey = 'q3';
-                else if (text.includes('脏')) matchKey = 'custom1';
-                else if (text.includes('换') || text.includes('卫生巾')) matchKey = 'custom2';
-            }
+            // 更智能的多维度关键词匹配引擎
+            if (text.includes('血') || text.includes('第一次') || text.includes('月经') || text.includes('初潮')) matchKey = '生理-初潮';
+            else if (text.includes('发烧') || text.includes('站不起来') || text.includes('剧烈')) matchKey = '生理-危机';
+            else if (text.includes('孤立') || text.includes('嘲笑') || text.includes('理我') || text.includes('孤独') || text.includes('欺负')) matchKey = '心理-孤立';
+            else if (text.includes('考试') || text.includes('笨') || text.includes('不会') || text.includes('成绩') || text.includes('压力')) matchKey = '学习-焦虑';
 
             executeSimulation(text, matchKey);
-            input.value = ""; // 清空输入框
+            input.value = ""; 
         }
 
-        // 核心动画展示链路
         function executeSimulation(userText, key) {
             const chatBox = document.getElementById('chatBox');
             const sendBtn = document.getElementById('sendBtn');
             const input = document.getElementById('userInputText');
-            const data = projectData[key];
 
-            // 锁定界面
-            input.disabled = true;
-            sendBtn.disabled = true;
-            resetDashboard();
+            // 动态生成回复的逻辑核心
+            let aiResponse = "";
+            let dashboardSteps = [];
+            let riskColor = "#57ab5a"; // 默认绿色
 
-            // 1. 在手机上展示学生说的话
+            if (key !== '动态生成') {
+                const data = projectData[key];
+                aiResponse = data.ai;
+                dashboardSteps = data.steps;
+                if(key.includes('危机')) riskColor = "#f43f5e";
+                else if(key.includes('心理')) riskColor = "#ecc440";
+            } else {
+                // 这是本次升级的最核心：动态捕捉重组技术
+                // 提取用户输入的前几个字作为话题焦点，模拟大语言模型的“上下文理解”
+                const topic = userText.length > 8 ? userText.substring(0, 8) + "..." : userText;
+                aiResponse = `【🟢 绿色风险 · 动态智能回应】\n\n我仔细听了你说的关于“${topic}”的事情。青春期的时候，我们确实会遇到各种各样超出书本知识的烦恼。这很正常。\n\n因为我目前还在不断学习中，虽然不能立刻给出完美的答案，但我建议你可以把这件事写在日记里理清思绪，或者试着找班里最信任的老师聊一聊。\n\n你愿意多告诉我一点你的感受吗？我一直都在这里听着。`;
+                dashboardSteps = [
+                    `抽取主旨：未命中特定词库。提取动态话题：[${topic}]`,
+                    "评级：绿色风险 (泛化倾诉/日常烦恼)。",
+                    "生成策略：采用“话题镜像反射”+“共情倾听”框架动态组合文本。",
+                    "审计：确保无倾向性误导，提供温和的情感出口与真人连接。"
+                ];
+            }
+
+            input.disabled = true; sendBtn.disabled = true; resetDashboard();
+
             const userDiv = document.createElement('div');
             userDiv.className = 'msg user';
             userDiv.innerText = userText;
             chatBox.appendChild(userDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // 2. 看板 STEP 1: 分析意图
-            setTimeout(() => {
-                updateDashboardStep(1, "● 分析中", "#539bf5", key === 'default' ? `用户自由输入：\"${userText}\"，启动分词与模糊意图识别。` : data.steps[0]);
-            }, 400);
-
-            // 3. 看板 STEP 2: 风控分诊
-            setTimeout(() => {
-                let color = "#57ab5a"; // 绿
-                if(key==='q2') color = "#ecc440"; // 黄
-                if(key==='q3') color = "#f43f5e"; // 红
-                updateDashboardStep(2, "● 已判定", color, key === 'default' ? "判定等级：绿色风险 (通用泛化意图)。进入常规意图审计。" : data.steps[1]);
-            }, 1200);
-
-            // 4. 看板 STEP 3: 知识检索
-            setTimeout(() => {
-                document.getElementById('typingIndicator').style.display = 'block';
-                chatBox.scrollTop = chatBox.scrollHeight;
-                updateDashboardStep(3, "● 检索完毕", "#539bf5", key === 'default' ? "RAG执行：未命中高危词，匹配通用青春期安全呵护兜底策略。" : data.steps[2]);
+            setTimeout(() => { updateDashboardStep(1, "● 语义抽取中", "#539bf5", dashboardSteps[0]); }, 400);
+            setTimeout(() => { updateDashboardStep(2, "● 已分诊", riskColor, dashboardSteps[1]); }, 1200);
+            setTimeout(() => { 
+                document.getElementById('typingIndicator').style.display = 'block'; chatBox.scrollTop = chatBox.scrollHeight;
+                updateDashboardStep(3, "● 策略执行", "#539bf5", dashboardSteps[2]); 
             }, 2000);
+            setTimeout(() => { updateDashboardStep(4, "● 审计通过", "#57ab5a", dashboardSteps[3]); }, 2800);
 
-            // 5. 看板 STEP 4: 边界拦截
-            setTimeout(() => {
-                updateDashboardStep(4, "● 审计通过", "#57ab5a", key === 'default' ? "安全审计：进入全自动合规性兜底，避免大模型自由发挥产生不可控的幻觉。" : data.steps[3]);
-            }, 2800);
-
-            // 6. 吐出 AI 回复
             setTimeout(() => {
                 document.getElementById('typingIndicator').style.display = 'none';
-                
                 const aiDiv = document.createElement('div');
                 aiDiv.className = 'msg ai';
                 chatBox.appendChild(aiDiv);
                 
-                let currentText = data.ai.replace(/\n/g, '<br>');
+                let currentText = aiResponse.replace(/\n/g, '<br>');
                 let i = 0;
-                
                 function typeWriter() {
                     if (i < currentText.length) {
-                        if (currentText.substr(i, 4) === '<br>') {
-                            aiDiv.innerHTML += '<br>';
-                            i += 4;
-                        } else {
-                            aiDiv.innerHTML += currentText.charAt(i);
-                            i++;
-                        }
+                        if (currentText.substr(i, 4) === '<br>') { aiDiv.innerHTML += '<br>'; i += 4; } 
+                        else { aiDiv.innerHTML += currentText.charAt(i); i++; }
                         chatBox.scrollTop = chatBox.scrollHeight;
                         setTimeout(typeWriter, 15);
                     } else {
-                        // 解锁界面
-                        input.disabled = false;
-                        sendBtn.disabled = false;
+                        input.disabled = false; sendBtn.disabled = false;
                     }
                 }
                 typeWriter();
-
             }, 3600);
         }
     </script>
