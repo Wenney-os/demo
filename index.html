@@ -194,7 +194,25 @@
         .step-card.active .step-header { color: #539bf5; }
         .step-body { font-size: 13px; color: #cdd9e5; }
 
-        /* 底部下拉选择框 */
+        /* 快捷标签的现代设计样式 */
+        .quick-tag {
+            background: #e4ecef;
+            color: var(--primary-color);
+            font-size: 11px;
+            padding: 5px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #d0dee2;
+            user-select: none;
+        }
+        .quick-tag:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* 底部输入区域 */
         .phone-input-area {
             background: #f7f7f7;
             padding: 12px;
@@ -203,13 +221,11 @@
             flex-direction: column;
             gap: 8px;
         }
-        .phone-input-area select {
-            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; outline: none;
-        }
         .phone-input-area button {
-            background: var(--primary-color); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: bold;
+            background: var(--primary-color); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: bold; transition: background 0.2s;
         }
-        .phone-input-area button:disabled { background: #ccc; }
+        .phone-input-area button:hover { background: #4a7278; }
+        .phone-input-area button:disabled { background: #ccc; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -221,6 +237,7 @@
 
     <div class="workspace">
         
+        <!-- 左侧：真实手机模拟 -->
         <div class="phone-column">
             <div class="phone-mockup">
                 <div class="phone-screen-header">小月信箱 (匿名通道)</div>
@@ -229,22 +246,34 @@
                     <div class="msg ai">你好呀！我是小月信箱的 AI 助手。关于青春期的身体发育、月经或者学校里遇到的烦恼，你都可以放心地匿名问我。我会为你绝对保密，并一步步陪着你解决。❤️</div>
                 </div>
                 
+                <!-- 闪烁的“输入中”提示 -->
                 <div class="typing-indicator" id="typingIndicator">
                     <span></span><span></span><span></span>
                 </div>
 
+                <!-- 升级版：智能快捷推荐标签 -->
+                <div class="quick-tags-container" style="padding: 0 12px; margin-bottom: 8px;">
+                    <div style="font-size: 11px; color: #888; margin-bottom: 5px;">🌟 猜你想问（点击标签可自动打字输入）：</div>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        <span class="quick-tag" onclick="clickQuickTag('q1')">初潮流血怎么办</span>
+                        <span class="quick-tag" onclick="clickQuickTag('q2')">肚子疼被嘲笑</span>
+                        <span class="quick-tag" onclick="clickQuickTag('q3')">高烧大量出血</span>
+                        <span class="quick-tag" onclick="clickQuickTag('custom1')">月经是脏的吗</span>
+                        <span class="quick-tag" onclick="clickQuickTag('custom2')">卫生巾多久换一次</span>
+                    </div>
+                </div>
+
+                <!-- 升级版：自由输入文本框 -->
                 <div class="phone-input-area">
-                    <select id="questionSelect">
-                        <option value="">-- 请选择一个模拟学生的提问场景 --</option>
-                        <option value="q1">“我第一次来月经怎么办？内裤上有血，我有点害怕……”</option>
-                        <option value="q2">“上课肚子疼得厉害，有男生笑我，我不知道怎么和老师说。”</option>
-                        <option value="q3">“我肚子疼得站不起来，流了好多血还在发烧，怎么办？”</option>
-                    </select>
-                    <button id="sendBtn" onclick="startAdvancedSimulation()">发送匿名提问</button>
+                    <div style="display: flex; gap: 8px; width: 100%;">
+                        <input type="text" id="userInputText" placeholder="在这输入你想问的任何问题..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; outline: none;">
+                        <button id="sendBtn" onclick="handleSendButtonClick()" style="width: 70px;">发送</button>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- 右侧：AI 思考大屏 -->
         <div class="dashboard-column">
             <h3 class="dashboard-title">⚙️ 青月 AI 风险分诊与技术链条监控后台</h3>
             
@@ -272,12 +301,13 @@
     </div>
 
     <script>
+        // 核心知识库与策略池
         const projectData = {
             q1: {
                 user: "我第一次来月经怎么办？内裤上有血，我有点害怕……",
-                ai: "【绿色风险 · 科学科普】\n\n孩子，别怕，这很可能是你的第一次月经。这说明你的身体在健康地进入青春期，是再正常不过的变化，它绝对不脏，也不是你做错了什么。❤️\n\n【你可以这样做】：\n1. 先用干净的纸巾临时垫在内裤上，别弄脏裤子。\n2. 尽快换上卫生巾（每2-3小时要换一次哦）。\n3. 如果手边没有，可以勇敢地找学校的女老师、校医或你信任的女同学借。大家都是过来人，一定会帮你的！",
+                ai: "【绿色风险 · 科学科普】\n\n孩子，别怕，这很可能是你的第一次月经。这说明你的身体在健康地进入青春期，是再正常不过的变化，它绝对不脏，页不是你做错了什么。❤️\n\n【你可以这样做】：\n1. 先用干净的纸巾临时垫在内裤上，别弄脏裤子。\n2. 尽快换上卫生巾（每2-3小时要换一次哦）。\n3. 如果手边没有，可以勇敢地找学校的女老师、校医或你信任的女同学借。大家都是过来人，一定会帮你的！",
                 steps: [
-                    "识别用户核心意图：初潮焦虑、寻求基本照护指导。",
+                    "识别用户核心意图：初潮发育、寻求生理期应急照护指导。",
                     "判定等级：绿色风险 (普通科普)。无需人工介入，允许触发大模型生成。",
                     "RAG成功：检索到《中国青少年青春期健康教育标准规范》- 初潮心理安抚与卫生用品使用指南。",
                     "边界审计通过：无药物、无露骨词汇。采用10-14岁女童适配语调，执行‘安抚-科普-行动’五步结构改写。"
@@ -295,12 +325,41 @@
             },
             q3: {
                 user: "我肚子疼得站不起来，流了好多血还在发烧，怎么办？",
-                ai: "【🔴 红色风险 · 必须紧急求助 🔴】\n\n孩子！系统发现你现在存在【剧烈腹痛、发烧、大量出血】的紧急状况。AI 不能看病，请不要再看手机聊天了，现在必须立刻找你身边的真人帮忙！\n\n【请立刻进行以下求助】：\n1. 如果在上课或学校，马上大声告诉或者请同学去叫班主任、值班老师、或者校医！\n2. 如果在寝室或家里，请立刻给家长打电话，告诉他们你身体极度不舒服，必须立刻去医院！\n3. 安全第一，请马上联系可以信任的长辈或医生介入！",
+                ai: "【🔴 红色风险 · 必须紧急求助 🔴】\n\n孩子！系统发现你现在存在【剧烈腹痛、发烧、大量出血】的紧急状况。AI 不能看病，请不要再看手机聊天了，现在必须立刻找你身边的真人帮忙！\n\n【请立刻进行以下求助】：\n1. 如果在上课或学校，马上大声告诉或者请同学去叫班主任、值班老师、或者校医！\n2. 如果在寝室或家里，请立刻给家长打电话，告知他们你身体极度不舒服，必须立刻去医院！\n3. 安全第一，请马上联系可以信任的长辈或医生介入！",
                 steps: [
                     "严重危机识别：输入包含‘站不起来’、‘发烧’、‘大量流血’等高危医学症状。",
                     "判定等级：红色风险 (生命安全与紧急危机)。触发最高级别硬边界拦截：立刻终止大模型自由对话！",
                     "RAG触发：检索到《未成年人急性医疗危机转介与紧急求助引导预案》。",
                     "安全边界拦截：[强制触发] 100%拦截任何医学诊断或止痛药推荐。强制转为‘高亮、加粗、感叹号’的紧急大字提示，引导线下真人、医院资源接管。"
+                ]
+            },
+            custom1: {
+                user: "月经血是不是很脏？",
+                ai: "【绿色风险 · 观念去污名化】\n\n女孩子身体里的月经血一点都不脏哦！它是我们身体生长的自然证明，代表着你正在健康地长大。以前有些旧观念说它‘不吉利’或者‘脏’，那都是完全错误的落后想法。你可以骄傲、坦然地接纳自己身体的每一步变化。🌟",
+                steps: [
+                    "检测输入：‘月经很脏吗’。识别为青春期月经羞耻感、观念误区。",
+                    "判定等级：绿色风险 (观念引导/心理支持)。",
+                    "RAG成功：匹配到《乡村青少年女性心理防线与身体接纳指南》- 去污名化篇。",
+                    "审计通过：执行低羞耻感温和语改写，强化心理支撑，瓦解原生家庭或落后环境带来的污名化影响。"
+                ]
+            },
+            custom2: {
+                user: "卫生巾多久需要换一次？",
+                ai: "【绿色风险 · 经期卫生照护】\n\n为了我们身体的卫生和健康，卫生巾一般建议【每2-3个小时】就需要更换一次哦！哪怕量很少，时间长了也会滋生细菌。另外，换卫生巾之前，记得一定要把双手洗干净。🧼",
+                steps: [
+                    "检测输入：‘卫生巾更换频率’。识别为日常经期卫生照护、生理常识。",
+                    "判定等级：绿色风险 (普通生活常识科普)。",
+                    "RAG成功：匹配妇幼保健院《经期基本生理照护指南》第二章。",
+                    "审计通过：输出短、准、可执行的步骤建议，无信息幻觉。"
+                ]
+            },
+            default: {
+                ai: "【绿色风险 · 通用智能引导】\n\n谢谢你信任小月信箱。这是一个针对乡村青少年的保护通道。你问的问题我已经交由知识库进行匹配。为了你的安全，请确保在日常生活中多跟学校的可信女教师、校医或妈妈沟通。如果你身体有不舒服，一定要及时告诉大人哦！❤️",
+                steps: [
+                    "检测输入：用户进行了完全自由的文本提问。",
+                    "判定等级：绿色风险 (通用泛化意图)。",
+                    "RAG匹配：匹配通用青春期安全呵护兜底词条。",
+                    "安全审计：进入全自动合规性兜底，避免大模型自由发挥产生不可控的幻觉。"
                 ]
             }
         };
@@ -322,53 +381,101 @@
             document.getElementById(`step${stepNum}-body`).innerText = bodyText;
         }
 
-        function startAdvancedSimulation() {
-            const select = document.getElementById('questionSelect');
-            const key = select.value;
-            if (!key) { alert('请先选择一个学生的提问场景！'); return; }
+        // 交互逻辑 1：点击快捷标签，触发优雅的“打字进输入框”效果
+        function clickQuickTag(key) {
+            const input = document.getElementById('userInputText');
+            const targetText = projectData[key].user;
+            input.value = "";
+            let i = 0;
+            
+            // 禁用按钮，防止打字未完就发送
+            document.getElementById('sendBtn').disabled = true;
+            
+            function autoTypeIntoInput() {
+                if (i < targetText.length) {
+                    input.value += targetText.charAt(i);
+                    i++;
+                    setTimeout(autoTypeIntoInput, 40); // 敲字进框的速度
+                } else {
+                    document.getElementById('sendBtn').disabled = false;
+                }
+            }
+            autoTypeIntoInput();
+        }
 
+        // 交互逻辑 2：点击发送按钮
+        function handleSendButtonClick() {
+            const input = document.getElementById('userInputText');
+            const text = input.value.trim();
+            if (!text) { alert('你想问小月什么呢？请输入内容后再发送哦！'); return; }
+            
+            // 判断输入的是不是我们库里有精准匹配的预设
+            let matchKey = 'default';
+            for (let key in projectData) {
+                if (projectData[key].user === text) {
+                    matchKey = key;
+                    break;
+                }
+            }
+            
+            // 如果库里没有一模一样的，看看有没有包含关键字
+            if (matchKey === 'default') {
+                if (text.includes('血') || text.includes('第一次') || text.includes('怕')) matchKey = 'q1';
+                else if (text.includes('痛') || text.includes('疼') || text.includes('笑')) matchKey = 'q2';
+                else if (text.includes('烧') || text.includes('站不起来')) matchKey = 'q3';
+                else if (text.includes('脏')) matchKey = 'custom1';
+                else if (text.includes('换') || text.includes('卫生巾')) matchKey = 'custom2';
+            }
+
+            executeSimulation(text, matchKey);
+            input.value = ""; // 清空输入框
+        }
+
+        // 核心动画展示链路
+        function executeSimulation(userText, key) {
             const chatBox = document.getElementById('chatBox');
             const sendBtn = document.getElementById('sendBtn');
+            const input = document.getElementById('userInputText');
             const data = projectData[key];
 
-            // 禁用输入
-            select.disabled = true;
+            // 锁定界面
+            input.disabled = true;
             sendBtn.disabled = true;
             resetDashboard();
 
-            // 1. 发送用户消息
+            // 1. 在手机上展示学生说的话
             const userDiv = document.createElement('div');
             userDiv.className = 'msg user';
-            userDiv.innerText = data.user;
+            userDiv.innerText = userText;
             chatBox.appendChild(userDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // 2. 触发后台大脑 STEP 1
+            // 2. 看板 STEP 1: 分析意图
             setTimeout(() => {
-                updateDashboardStep(1, "● 分析中", "#539bf5", data.steps[0]);
+                updateDashboardStep(1, "● 分析中", "#539bf5", key === 'default' ? `用户自由输入：\"${userText}\"，启动分词与模糊意图识别。` : data.steps[0]);
             }, 400);
 
-            // 3. 触发后台大脑 STEP 2
+            // 3. 看板 STEP 2: 风控分诊
             setTimeout(() => {
                 let color = "#57ab5a"; // 绿
                 if(key==='q2') color = "#ecc440"; // 黄
                 if(key==='q3') color = "#f43f5e"; // 红
-                updateDashboardStep(2, "● 已判定", color, data.steps[1]);
+                updateDashboardStep(2, "● 已判定", color, key === 'default' ? "判定等级：绿色风险 (通用泛化意图)。进入常规意图审计。" : data.steps[1]);
             }, 1200);
 
-            // 4. 触发左侧手机“输入中...”闪烁，同时运行大脑 STEP 3
+            // 4. 看板 STEP 3: 知识检索
             setTimeout(() => {
                 document.getElementById('typingIndicator').style.display = 'block';
                 chatBox.scrollTop = chatBox.scrollHeight;
-                updateDashboardStep(3, "● 检索完毕", "#539bf5", data.steps[2]);
+                updateDashboardStep(3, "● 检索完毕", "#539bf5", key === 'default' ? "RAG执行：未命中高危词，匹配通用青春期安全呵护兜底策略。" : data.steps[2]);
             }, 2000);
 
-            // 5. 运行大脑 STEP 4
+            // 5. 看板 STEP 4: 边界拦截
             setTimeout(() => {
-                updateDashboardStep(4, "● 审计通过", "#57ab5a", data.steps[3]);
+                updateDashboardStep(4, "● 审计通过", "#57ab5a", key === 'default' ? "安全审计：进入全自动合规性兜底，避免大模型自由发挥产生不可控的幻觉。" : data.steps[3]);
             }, 2800);
 
-            // 6. 关闭“输入中...”，触发打字机特效输出 AI 回复
+            // 6. 吐出 AI 回复
             setTimeout(() => {
                 document.getElementById('typingIndicator').style.display = 'none';
                 
@@ -376,11 +483,9 @@
                 aiDiv.className = 'msg ai';
                 chatBox.appendChild(aiDiv);
                 
-                // 打字机核心逻辑
                 let currentText = data.ai.replace(/\n/g, '<br>');
                 let i = 0;
                 
-                // 为了避开HTML标签内部字符被逐字拆分导致乱码，采用标签友好型打字机
                 function typeWriter() {
                     if (i < currentText.length) {
                         if (currentText.substr(i, 4) === '<br>') {
@@ -391,10 +496,10 @@
                             i++;
                         }
                         chatBox.scrollTop = chatBox.scrollHeight;
-                        setTimeout(typeWriter, 20); // 打字速度（毫秒）
+                        setTimeout(typeWriter, 15);
                     } else {
-                        // 结束打字，恢复可点击状态
-                        select.disabled = false;
+                        // 解锁界面
+                        input.disabled = false;
                         sendBtn.disabled = false;
                     }
                 }
