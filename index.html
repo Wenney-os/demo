@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青月计划 · 小月信箱 Demo展示</title>
+    <style>
+        :root {
+            --primary-color: #7ba3a8; /* 温和的青月色调 */
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(135deg, #5b8c93, #7ba3a8);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0; font-size: 28px; font-weight: 600; }
+        header p { margin: 10px 0 0 0; opacity: 0.9; font-size: 16px; }
+        
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .intro-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        /* 模拟手机聊天界面 */
+        .chat-container {
+            background: #ebebeb;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+        .chat-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .chat-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .message {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 15px;
+            word-wrap: break-word;
+        }
+        .message.system {
+            background: #e0e0e0;
+            align-self: center;
+            font-size: 12px;
+            color: #666;
+            max-width: 90%;
+            text-align: center;
+        }
+        .message.user {
+            background: #95ec69;
+            color: #000;
+            align-self: flex-end;
+            border-top-right-radius: 2px;
+        }
+        .message.ai {
+            background: var(--card-bg);
+            color: var(--text-color);
+            align-self: flex-start;
+            border-top-left-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .chat-input-area {
+            background: #f7f7f7;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .chat-input-area select {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+        .chat-input-area button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        .chat-input-area button:hover {
+            background: #5b8c93;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #888;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>青月计划 · 小月信箱</h1>
+        <p>面向乡村青少年的低羞耻、低门槛、可审查、可转介的 AI 青春期健康支持系统</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="intro-card">
+            <h3>项目核心定位</h3>
+            <p><strong>小月信箱</strong>不是一个简单的生理知识问答机器人。它要在真实场景中接住乡村青少年（如12岁留守女童小雨）的问题、情绪和求助需求，将恐惧转化为可执行的下一步。</p>
+        </div>
+
+        <h3 style="text-align: center; color: #5b8c93; margin-bottom: 15px;">👇 功能模拟演示：请选择学生的问题进行测试</h3>
+        
+        <div class="chat-container">
+            <div class="chat-header">小月信箱 (学生端匿名安全通道)</div>
+            <div class="chat-box" id="chatBox">
+                <div class="message system">【系统提示】这里是匿名安全信箱，不强制下载、不要求实名、不长期保存敏感聊天记录。系统采用专家审核知识库 + RAG检索增强生成，守护你的青春期健康。</div>
+                <div class="message ai">你好！我是小月信箱的 AI 助手。关于青春期的身体变化、月经照护或者心理困惑，你都可以放心地在这里匿名问我。我会为你保密，并尽力帮助你。❤️</div>
+            </div>
+            
+            <div class="chat-input-area">
+                <select id="questionSelect">
+                    <option value="">-- 请选择一个模拟学生的真实提问 --</option>
+                    <option value="q1">“我第一次来月经怎么办？我有点害怕……” (绿色·普通科普)</option>
+                    <option value="q2">“上课肚子疼得厉害，有男生笑我，我该怎么和老师说？” (黄色·风险求助)</option>
+                    <option value="q3">“我肚子疼得站不起来了，还发烧流了好多血，怎么办？” (红色·紧急风险)</option>
+                </select>
+                <button onclick="sendSimulation()">发送提问</button>
+            </div>
+        </div>
+
+        <div class="intro-card" style="margin-top: 30px; border-left: 5px solid #d9534f;">
+            <h3>🛡️ 安全红线与机制设计说明</h3>
+            <p>本系统严格采用<strong>红黄绿风险分诊机制</strong>：绿色实施温和科普；黄色/红色强制触发风险提示并生成<strong>求助模板</strong>，帮助无法开口的孩子生成一句她真正说得出口的话，引导真人（老师、校医）及时介入。</p>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 青月计划项目组 · AI赋能中国大陆乡村青少年女性生理知识普及方案</p>
+    </footer>
+
+    <script>
+        // 预设的计划书数据响应
+        const dataConfig = {
+            q1: {
+                user: "我第一次来月经怎么办？我有点害怕……",
+                ai: "【绿色风险 · 科学科普】\n\n孩子，你不用害怕，这很可能是你的第一次月经，说明你的身体正在进入青春期，这是非常正常的生理变化，不是脏，更不是你做错了什么。❤️\n\n【你可以这样做】：\n1. 先用干净的纸巾临时垫在内裤上处理。\n2. 尽快换上卫生巾（每2-3小时需要更换一次哦）。\n3. 如果身边没有卫生巾，可以勇敢地找学校的女老师、校医或者你信任的女同学借用，大家都会理解并帮助你的。"
+            },
+            q2: {
+                user: "上课肚子疼得厉害，有男生笑我，我该怎么和老师说？",
+                ai: "【黄色风险 · 触发求助话术】\n\n听到你的经历我很难过，请记住，月经是正常的生理现象，绝不是可以被开玩笑或嘲笑的事情，错的是嘲笑别人的行为，而不是你。对于肚子痛，我们需要找老师帮忙。\n\n【为你生成的求助模板，你可以直接读给老师听】：\n👉 “老师，我身体不舒服，可能和生理期有关，想去医务室休息一下，可以吗？”\n\n【应对同学嘲笑，你可以坚定地对他们说】：\n👉 “这是正常的生理现象，不是可以开玩笑的事情，请你停止。”"
+            },
+            q3: {
+                user: "我肚子疼得站不起来了，还发烧流了好多血，怎么办？",
+                ai: "【🔴 红色风险 · 必须紧急求助 🔴】\n\n系统识别到你目前存在【剧烈腹痛、发烧、大量出血】的紧急身体状况。AI 无法进行疾病诊断，此时请不要继续在线聊天，必须立刻寻求身边真人的紧急帮助！\n\n【请立刻采取以下行动】：\n1. 马上大声呼喊或者请身边的同学，去叫班主任、值班老师或校医！\n2. 如果在寝室或家里，请立刻拨打家长电话，告知他们你现在很难受，需要去医院！\n3. 安全第一，请立刻联系长辈或医生介入！"
+            }
+        };
+
+        function sendSimulation() {
+            const select = document.getElementById('questionSelect');
+            const key = select.value;
+            if (!key) {
+                alert('请先选择一个学生的提问场景！');
+                return;
+            }
+            
+            const chatBox = document.getElementById('chatBox');
+            const scenario = dataConfig[key];
+            
+            // 1. 添加用户消息
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user';
+            userDiv.innerText = scenario.user;
+            chatBox.appendChild(userDiv);
+            
+            // 滚动到底部
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            // 禁用按钮模拟思考
+            select.disabled = true;
+            
+            // 2. 模拟 AI 稍作延迟后回复
+            setTimeout(() => {
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'message ai';
+                // 替换换行符为网页换行
+                aiDiv.innerHTML = scenario.ai.replace(/\n/g, '<br>');
+                chatBox.appendChild(aiDiv);
+                
+                // 再次滚动到底部并恢复选择
+                chatBox.scrollTop = chatBox.scrollHeight;
+                select.disabled = false;
+                select.value = ''; // 重置选择
+            }, 800);
+        }
+    </script>
+</body>
+</html>
